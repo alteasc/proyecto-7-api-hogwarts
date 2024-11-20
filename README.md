@@ -7,6 +7,8 @@ Con esta API se pretende crear una base de datos en la que los alumnos tengan a 
 - DOTENV: para el uso de las variables de entorno
 - EXPRESS: para el correcto funcionamiento del servidor
 - MONGOOSE: para la conexión y uso de la BBDD MongoDB
+- BCRYPT: para encriptar la contraseña de los distintos usuarios que pueden acceder
+- JSONWEBTOKEN: para generar y comprobar el token, que permitirá que las diferentes rutas puedan abrirs
 - NODEMON: para poder ver los cambios y desarrollar el proyecto más cómodamente, como dependencia del desarrollador.
 
 Ejemplo de instalación de estas librerías
@@ -44,23 +46,25 @@ Se han realizado cuatro colecciones de datos:
 Partiendo de las rutas anteriores, estos son cada uno de los controladores que se han creado para cada colección:
 
 > Colección SCORES
-> GET: "/", para acceder a todas las calificaciones de los alumnos, a lo que sólo está autorizado el administrador de la web.
-> POST: "/", para crear una calificación con todos sus datos. Podrán hacerlo solo los usuarios con rol de profesor y cuyo asignatura impartida coincida con la calificación que se pretende crear.
-> PUT: "/:id", para modificar cualquier dato de la calificación. Cuyos permisos funcionan igual que la ruta anterior.
-> DELETE: "/:id", para borrar una calificación. Cuyos permisos funcionan igual que la ruta POST.
+
+- GET: "/", para acceder a todas las calificaciones de los alumnos, a lo que sólo está autorizado el administrador de la web.
+- POST: "/", para crear una calificación con todos sus datos. Podrán hacerlo solo los usuarios con rol de profesor y cuyo asignatura impartida coincida con la calificación que se pretende crear.
+- PUT: "/:id", para modificar cualquier dato de la calificación. Cuyos permisos funcionan igual que la ruta anterior.
+- DELETE: "/:id", para borrar una calificación. Cuyos permisos funcionan igual que la ruta POST.
 
 > Colección SUBJECT
-> GET: "/" y "/:id", para acceder en el primer caso a todos los datos de todas las asignaturas y en el segundo caso a los datos de una determinada asignatura, siempre y cuando se haya hecho login en la web.
-> POST: "/", para crear una asignatura. Podrán hacerlo solo los usuarios con rol de profesor y cuyo nombre coincida con el del profesor que debe impartir la asignatura.
-> PUT: "/:id", para modificar una asignatura. Cuyos permisos funcionan igual que la ruta anterior.
-> DELETE: "/:id", para eliminar por completo una asignatura. Podrá hacerlo únicamente el administrador de la web.
+
+- GET: "/" y "/:id", para acceder en el primer caso a todos los datos de todas las asignaturas y en el segundo caso a los datos de una determinada asignatura, siempre y cuando se haya hecho login en la web.
+- POST: "/", para crear una asignatura. Podrán hacerlo solo los usuarios con rol de profesor y cuyo nombre coincida con el del profesor que debe impartir la asignatura.
+- PUT: "/:id", para modificar una asignatura. Cuyos permisos funcionan igual que la ruta anterior.
+- DELETE: "/:id", para eliminar por completo una asignatura. Podrá hacerlo únicamente el administrador de la web.
 
 > Colección USERS
 
-GET: "/" y "/:id", en la primera ruta con método get se puede acceder a todos los datos de todos los usuarios de la web, para lo cual únicamente tiene el permiso el administrador de la web. En la segunda ruta, cada usuario que previamente haya hecho login en la web, podrá ver todos sus datos personales. Los estudiantes verán además sus asignaturas y calificaciones de las mismas y los profesores por su parte, las calificaciones de todos sus alumnos.
-POST: "/register" y "/login", para que cada usuario pueda registrarse y loguearse en la web respectivamente.
-PUT: "/:id", para poder modificar cualquier dato de los usuarios, a lo cual únicamente tiene autorización el administrador de la web.
-DELETE: "/:id", para eliminar a un usuario de la web, cuya autorización es igual a la ruta anterior.
+- GET: "/" y "/:id", en la primera ruta con método get se puede acceder a todos los datos de todos los usuarios de la web, para lo cual únicamente tiene el permiso el administrador de la web. En la segunda ruta, cada usuario que previamente haya hecho login en la web, podrá ver todos sus datos personales. Los estudiantes verán además sus asignaturas y calificaciones de las mismas y los profesores por su parte, las calificaciones de todos sus alumnos.
+- POST: "/register" y "/login", para que cada usuario pueda registrarse y loguearse en la web respectivamente.
+- PUT: "/:id", para poder modificar cualquier dato de los usuarios, a lo cual únicamente tiene autorización el administrador de la web.
+- DELETE: "/:id", para eliminar a un usuario de la web, cuya autorización es igual a la ruta anterior.
 
 > Note: Se han relacionado las colecciones SCORES y SUBJECTS respectivamente, con la colección USERS. Para que los alumnos y profesores tengan disponible en un sólo lugar toda su información.
 
