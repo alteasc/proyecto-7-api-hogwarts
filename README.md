@@ -8,11 +8,7 @@ Con esta API se pretende crear una base de datos en la que los alumnos tengan a 
 - EXPRESS: para el correcto funcionamiento del servidor
 - MONGOOSE: para la conexión y uso de la BBDD MongoDB
 - BCRYPT: para encriptar la contraseña de los distintos usuarios que pueden acceder
-<<<<<<< HEAD
 - JSONWEBTOKEN: para generar y comprobar el token, que permitirá que las diferentes rutas puedan abrirs
-=======
-- JSONWEBTOKEN: para generar y comprobar el token, que permitirá que las diferentes rutas puedan abrirse
->>>>>>> c4bcd512935bdabca1a980cc2a61f78df2db4ad6
 - NODEMON: para poder ver los cambios y desarrollar el proyecto más cómodamente, como dependencia del desarrollador.
 
 Ejemplo de instalación de estas librerías
