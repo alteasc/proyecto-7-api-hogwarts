@@ -39,7 +39,7 @@ Se han realizado cuatro colecciones de datos:
 - Users: en esta colección se almacena toda la información personal de cada usuario de esta web, que en este caso serán tanto profesores como alumnos
   "/api/v1/users"
 
-> Note: Teniendo en cuenta esta información, dentro de los usuarios necesitaremos 3 perfiles diferentes y cada uno por su condición de estudiante o profesor accederá a unos datos diferentes.
+> Note: Teniendo en cuenta esta información, dentro de los usuarios necesitaremos 3 perfiles diferentes y cada uno por su condición de estudiante o profesor accederá a unos datos diferentes. Además de la necesidad de un administrador que será encargado de mantener el correcto funcionamiento de la web y ajeno al colegio.
 > Los perfiles serán: <"admin", "user", "teacher">.  
 > Cada uno de ellos podrá acceder, modificar y borrar información restringida dependiendo de sus funciones."
 
