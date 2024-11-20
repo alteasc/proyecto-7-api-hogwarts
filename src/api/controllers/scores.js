@@ -9,26 +9,6 @@ const getScores = async (req, res, next) => {
   }
 }
 
-const getScoresBySubject = async (req, res, next) => {
-  try {
-    const { asignatura } = req.params
-
-    const scoreBySubject = await Score.find({ asignatura })
-    // console.log(scoreBySubject[0].asignatura)
-    // console.log(req.teacher.asignatura)
-
-    for (const element of scoreBySubject) {
-      if (element.asignatura === req.teacher.asignatura) {
-        return res.status(200).json(scoreBySubject)
-      } else {
-        return res.status(400).json('No puedes acceder a estos datos')
-      }
-    }
-  } catch (error) {
-    return res.status(400).json('Ha fallado la petición')
-  }
-}
-
 const postScore = async (req, res, next) => {
   try {
     const newScore = new Score({
@@ -40,7 +20,7 @@ const postScore = async (req, res, next) => {
     // console.log(req.teacher.asignatura)
     // console.log(req.body.asignatura)
 
-    if (req.teacher.asignatura === req.body.asignatura) {
+    if (req.user.asignatura === req.body.asignatura) {
       const scoreSaved = await newScore.save()
       return res.status(201).json(scoreSaved)
     } else {
@@ -60,7 +40,7 @@ const updateScore = async (req, res, next) => {
       new: true
     })
 
-    if (scoreUpdated.asignatura === req.teacher.asignatura) {
+    if (scoreUpdated.asignatura === req.user.asignatura) {
       return res.status(200).json(scoreUpdated)
     } else {
       return res.status(400).json('No puedes actualizar este dato')
@@ -75,7 +55,7 @@ const deleteScore = async (req, res, next) => {
     const { id } = req.params
     const scoreDeleted = await Score.findByIdAndDelete(id)
 
-    if (scoreDeleted.asignatura === req.teacher.asignatura) {
+    if (scoreDeleted.asignatura === req.user.asignatura) {
       return res.status(200).json(scoreDeleted)
     } else {
       return res.status(400).json('No puedes borrar estos datos')
@@ -87,7 +67,6 @@ const deleteScore = async (req, res, next) => {
 
 module.exports = {
   getScores,
-  getScoresBySubject,
   updateScore,
   postScore,
   deleteScore

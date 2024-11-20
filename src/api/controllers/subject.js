@@ -9,6 +9,16 @@ const getSubjects = async (req, res, next) => {
   }
 }
 
+const getSubjectByID = async (req, res, next) => {
+  try {
+    const { id } = req.params
+    const subjectByID = await Subject.findById(id)
+    return res.status(200).json(subjectByID)
+  } catch (error) {
+    return res.status(400).json('Ha fallado la petición')
+  }
+}
+
 const postSubject = async (req, res, next) => {
   try {
     const newSubject = new Subject({
@@ -19,8 +29,12 @@ const postSubject = async (req, res, next) => {
       optativa: req.body.optativa
     })
 
-    const subjectSaved = await newSubject.save()
-    return res.status(201).json(subjectSaved)
+    if (req.user.username === req.body.profesor) {
+      const subjectSaved = await newSubject.save()
+      return res.status(201).json(subjectSaved)
+    } else {
+      return res.status(400).json('No puedes crear este dato')
+    }
   } catch (error) {
     return res.status(400).json('No se ha creado la asignatura')
   }
@@ -29,12 +43,18 @@ const postSubject = async (req, res, next) => {
 const updateSubject = async (req, res, next) => {
   try {
     const { id } = req.params
+    const oldSubject = await Subject.findById(id)
     const newSubject = new Subject(req.body)
     newSubject._id = id
+    newSubject.material = [...oldSubject.material, ...req.body.material]
     const subjectUpdated = await Subject.findByIdAndUpdate(id, newSubject, {
       new: true
     })
-    return res.status(200).json(subjectUpdated)
+    if (subjectUpdated.profesor === req.user.username) {
+      return res.status(200).json(subjectUpdated)
+    } else {
+      return res.status(400).json('No puedes actualizar este dato')
+    }
   } catch (error) {
     res.status(400).json('No se ha actualizado la asignatura')
   }
@@ -50,4 +70,10 @@ const deleteSubject = async (req, res, next) => {
   }
 }
 
-module.exports = { getSubjects, postSubject, updateSubject, deleteSubject }
+module.exports = {
+  getSubjects,
+  getSubjectByID,
+  postSubject,
+  updateSubject,
+  deleteSubject
+}

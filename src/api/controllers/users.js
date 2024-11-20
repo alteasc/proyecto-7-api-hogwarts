@@ -4,7 +4,10 @@ const bcrypt = require('bcrypt')
 
 const getUsers = async (req, res, next) => {
   try {
-    const allUsers = await User.find().populate('asignaturas')
+    const allUsers = await User.find()
+      .populate('asignaturas')
+      .populate('notasAsignaturas')
+      .populate('notasAlumnos')
     return res.status(200).json(allUsers)
   } catch (error) {
     return res.status(400).json('Ha fallado la petición')
@@ -17,7 +20,8 @@ const getUsersById = async (req, res, next) => {
 
     const userById = await User.findById(id)
       .populate('asignaturas')
-      .populate('calificaciones')
+      .populate('notasAsignaturas')
+      .populate('notasAlumnos')
     // console.log(userById._id)
     // console.log(req.user._id)
 
@@ -35,9 +39,7 @@ const register = async (req, res, next) => {
   try {
     const newUser = new User({
       username: req.body.username,
-      password: req.body.password,
-
-      rol: 'user'
+      password: req.body.password
     })
 
     const duplicatedUser = await User.findOne({ username: req.body.username })
@@ -78,17 +80,28 @@ const updateUser = async (req, res, next) => {
     const oldUser = await User.findById(id)
     const newUser = new User(req.body)
     newUser._id = id
-    newUser.asignaturas = [...oldUser.asignaturas, ...req.body.asignaturas]
-    newUser.calificaciones = [
-      ...oldUser.calificaciones,
-      ...req.body.calificaciones
+    const asignaturas = req.body.asignaturas || []
+    newUser.asignaturas = [...oldUser.asignaturas, ...asignaturas]
+    const notasAsignaturas = req.body.notasAsignaturas || []
+    newUser.notasAsignaturas = [
+      ...oldUser.notasAsignaturas,
+      ...notasAsignaturas
     ]
-    const userUpdated = await User.findByIdAndUpdate(id, newUser, {
-      new: true
-    })
+    const notasAlumnos = req.body.notasAlumnos || []
+    newUser.notasAlumnos = [...oldUser.notasAlumnos, ...notasAlumnos]
+
+    const userUpdated = await User.findByIdAndUpdate(
+      id,
+      newUser,
+      { $addToSet: { asignaturas: newUser.asignaturas } },
+      {
+        new: true
+      }
+    )
 
     return res.status(200).json(userUpdated)
   } catch (error) {
+    console.log(error)
     res.status(400).json('No se ha actualizado el usuario')
   }
 }

@@ -3,10 +3,12 @@ const bcrypt = require('bcrypt')
 
 const userSchema = new mongoose.Schema(
   {
-    username: { type: String, required: true },
+    username: { type: String, required: true, unique: true },
     password: { type: String, required: true },
     asignaturas: [{ type: mongoose.Types.ObjectId, ref: 'subjects' }],
-    calificaciones: [{ type: mongoose.Types.ObjectId, ref: 'scores' }],
+    notasAsignaturas: [{ type: mongoose.Types.ObjectId, ref: 'scores' }],
+    asignatura: { type: String },
+    notasAlumnos: [{ type: mongoose.Types.ObjectId, ref: 'scores' }],
     rol: {
       type: String,
       required: true,

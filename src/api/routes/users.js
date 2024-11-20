@@ -11,10 +11,10 @@ const {
 const usersRoutes = require('express').Router()
 
 usersRoutes.get('/', [isAdmin], getUsers)
-usersRoutes.get('/:id', [isAuthAlumn], getUsersById)
+usersRoutes.get('/:id', [isAuth], getUsersById)
 usersRoutes.post('/register', register)
 usersRoutes.post('/login', login)
 usersRoutes.put('/:id', [isAdmin], updateUser)
-usersRoutes.delete('/:id', [isAuth], deleteUser)
+usersRoutes.delete('/:id', [isAdmin], deleteUser)
 
 module.exports = usersRoutes
